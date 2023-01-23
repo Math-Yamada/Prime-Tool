@@ -7,7 +7,7 @@ import math
 
 #開発者用
 name = 'Yamada'
-ver = '0.0.0'
+ver = '0.0.1'
 debug = True
 
 #変数の宣言
@@ -31,7 +31,7 @@ def push_judge(num):
 
 #素数判定
 def judge_num(top):
-	number = math.floor(top ** (1 / 2))
+	number = math.floor(math.sqrt(top))
 	bottom = 1
 	for i in range(number - 1):
 		bottom += 1
@@ -83,11 +83,11 @@ def update_disp(mode, char):
 	global num
 	if mode == 'update':
 		num = char
-	elif mode == 'add':
+	elif mode == 'add' and len(num) < 20:
 		num += char
 	elif mode == 'delete':
 		num = num[:-1]
-	disp.config(text = num)
+	disp.config(text = num, font = ('MSゴシック', (len(num) // 11) * -20 + 40, 'bold'))
 
 #入力確認
 def key_check(key):
@@ -98,7 +98,10 @@ def key_check(key):
 		else:
 			update_disp('add', enter)
 	elif enter == 'BackSpace':
-		update_disp('delete', None)
+		if len(num) > 1:
+			update_disp('delete', None)
+		else:
+			update_disp('update', '0')
 
 #キーボード入力の受け取り
 app.bind("<KeyPress>", key_check)
